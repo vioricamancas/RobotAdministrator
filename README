@@ -1,0 +1,85 @@
+Nume, Prenume: Mancas, Viorica 
+Grupa, seria: 311CA
+
+Data începerii temei: 26-03-2018
+Data finalizării temei: 04-04-2018
+Tema1 SD 2018
+
+Probleme intampinate:
+	-nu am fost destul de atenta la precizari, iar debuggingul
+a durat mai mult
+
+	-folosirea clasei tuple s-a dovedit a fi mai eficienta ca memorie
+dar mai putin lizibila
+
+Alte precizari:
+	-Pentru usurinta in redactare am folosit directive preprocesor in
+favoarea variabilelor deoarece accesarea elementului din tuple are o
+sintaxa mai complicata
+
+    -Am folosit scheletul de la laborator pentru implementarea stivei, cozii
+duble, a listei dublu inlantuite si a vectorului cu marime variabila. Pentru
+coada am folosit functiile din lista, iar pentru stiva am folosit  functiile
+clasei ResizableArray.
+
+	-In cadrul algoritmului am folostit 2 stive de perechi de 
+tip <string, tuple_type> : done si exec;
+Done contine tate comenzile care pot fi anulate (EXECUTE, ADD_GET_BOX, 
+ADD_DROP_BOX), iar exec contine doar comenzile executate (cu stringul 
+aferent "GET" sau "DROP");
+tuple_type din exec contine (type,x,y,nr_box,id)
+tuple_type din done contine (id, x, y, nr_box, aux),
+unde aux este ce se modifica pentru a fi utilizat cu usurinta in exec;
+
+Dificultatea temei:
+	-Dificultate medie
+	-Aseptari: mai putine teste
+	-Realitate: eliminarea pierderilor de memorie s-a dovedit a fi mai dificila
+decat ma asteptam
+
+Algoritmul utilizat:
+	-In functia main am declarat si initializat variabilele, apoi am folosit o
+functie de citire pentru dimensiuni si matrice; am alocat dinamic vectorii de
+intregi si cel de cozi, la fel si matricea. Citirea se efectueaza pana la
+sfarsitul fisierului, iar pentru fiecare comanda sunt citite variabilele
+specifice, apoi este apelata functia respectiva. La sfarsitul functiei main
+am realizat dealocari.
+
+	-Pentru timp a folosit o variabila intializata cu 0, incrementata la
+fiecare pas pentru referinta ulterioara, urmand ca rezultatul final 
+(HOW_MUCH_TIME) sa se calculeze ulterior prin scadere, in functia EXECUTE.
+Fiecare comanda din coada are stocat momentul de timp (de referinta) la care
+a fost adaugata. In cazul comenzii UNDO pentru o comanda de tip EXECUTE se
+reseteaza timpul cu valoarea actuala.
+
+	-Functiile ADD_GET_BOX si ADD_DROP_BOX sunt similare, amebele introducand
+elemente de tip tuple de 5 intregi, la inceputul sau sfarsitul cozii, dupa
+prioritate; diferenta este ca pe primul element al qvintuplului se va salva
+tipul comenzii, 1 pt GET si 0 pt DROP.
+
+	-Functia PRINT_COMMANDS verifica daca coada robotului cu id-ul cerut este
+goala, iar daca nu este, va permuta intreaga coada pentru a afisa comenzile si
+pentru a nu ramane cu modificari la coada initiala.
+
+	-Functia EXECUTE verifica daca coada robotului cu id-ul cerut este goala
+iar daca nu scoate elementul de la inceputil cozii si cu modificarea aferenta
+(ultimul element al grupului devine id-ul) il adauga in stiva done. Urmeaza o
+alta modificare, legata de timp, tot a ultimului element din grup, dar si a
+numarului de cutii (elementul al 4-lea, modificat fiind in functie de
+matrice si de tip), si a primului element care devine id-ul (data fiind
+structura stivei exec), dupa care noua pereche este adaugata in stiva. 
+
+	-Functia UNDO se foloseste atat de done cat si de exec, creeate in EXECUTE
+(comenzile de tip EXECUTE, dar si ADD) si in main (comenzile de tip ADD). Daca
+ultima comanda este de tip ADD este eliminata in functie de prioritate, iar
+daca nu, se reface numarul de cutii din matirce si din vectorul de cutii,
+iar comanda, astfel modificata (in functie de tip), se reintroduce in coada.
+
+	-Functia LAST_EXECUTED_COMMAND se foloseste de stiva exec creeata pe parcurs
+si afiseaza elementul aflat in varful stivei.
+
+	-Functia HOW_MUCH_TIME se foloseste tot de stiva exec si returneaza 
+parametrul de timp al ultimului element fara a-l scoate din stiva.
+
+	-Functia HOW_MANY_BOXES se foloseste de vectorul boxes_carried construit pe
+parcurs si afiseaza elementul de pe pozitia aferenta robotului cerut.
